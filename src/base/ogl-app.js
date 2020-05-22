@@ -1,6 +1,10 @@
 import { Renderer, Camera, Transform, Orbit } from 'ogl';
 import Clock from './clock';
 
+const CAMERA_FOV = 45;
+const CAMERA_NEAR = 0.1;
+const CAMERA_FAR = 1000;
+
 const NOOP = () => {};
 
 function toLocalCoords(domElement, mouseEvent) {
@@ -42,10 +46,11 @@ export default class OGLApp {
     }
 
     // Camera & Scene
-    const camera = new Camera(gl, { near: 0.1, far: 1000 });
+    const camera = new Camera(gl, { fov: CAMERA_FOV, near: CAMERA_NEAR, far: CAMERA_FAR });
     camera.position.set(1, 1, 5);
     this.camera = camera;
     this.scene = new Transform();
+    camera.lookAt(this.scene.position);
 
     // Features
     if (orbitControls) {

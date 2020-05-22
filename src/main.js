@@ -1,27 +1,27 @@
 import OGLApp from './base/ogl-app';
-import { Box, Program, Mesh } from 'ogl';
-import vertex from './shaders/vertex.glsl';
-import fragment from './shaders/fragment.glsl';
+import { Program, Mesh, Texture } from 'ogl';
+import imageTest from '../assets/image_test.jpg';
+import ImagePlane from './image-plane';
 
 class Demo {
   constructor() {
     this.app = new OGLApp({
       onRenderCallback: this.onRender.bind(this),
       onResizeCallback: this.onResize.bind(this),
-      orbitControls: true,
+      orbitControls: false,
     });
     this.setup();
     this.app.start();
   }
 
   setup() {
-    const { gl, scene } = this.app;
-    const program = new Program(gl, { vertex, fragment });
-    const geometry = new Box(gl);
-    const mesh = new Mesh(gl, { geometry, program });
-    mesh.position.set(0, 0, 0);
-    mesh.setParent(scene);
-    this.cube = mesh;
+    const { gl, scene, camera } = this.app;
+    camera.position.set(0, 0, 1);
+    camera.lookAt([0, 0, 0]);
+    const images = [];
+    const img = new ImagePlane(gl, { src: imageTest });
+    img.setParent(scene);
+    this.images = images;
   }
 
   onResize(width, height) {
@@ -29,8 +29,8 @@ class Demo {
   }
 
   onRender({ elapsedTime, delta, scene, camera, renderer }) {
-    this.cube.rotation.x += delta;
-    this.cube.rotation.y += delta;
+    //this.plane.rotation.x += delta;
+    //this.plane.rotation.y += delta;
     renderer.render({ scene, camera });
   }
 }
