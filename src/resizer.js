@@ -24,11 +24,9 @@ export function visibleWidthAtZDepth( camera, depth = 0 ) {
 }
 
 export default class Resizer {
-  constructor(camera, obj) {
-    this.camera = camera;
+  constructor(obj) {
     this.obj = obj;
     this.scale = new Vec2(1, 1);
-    this.setSize(1, 1);
   }
 
   setSize(width, height) {
@@ -36,10 +34,10 @@ export default class Resizer {
     this.update();
   }
 
-  update() {
-    const { obj, camera, scale } = this;
-    const w = visibleWidthAtZDepth(camera);
-    const h = visibleHeightAtZDepth(camera);
+  update(camera) {
+    const { obj, scale } = this;
+    const w = visibleWidthAtZDepth(camera, obj.position.z);
+    const h = visibleHeightAtZDepth(camera, obj.position.z);
     obj.scale.x = w * scale.x;
     obj.scale.y = h * scale.y;
   }

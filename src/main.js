@@ -21,7 +21,7 @@ class Demo {
     const images = [];
     const img = new ImagePlane(gl, { src: imageTest });
     img.setParent(scene);
-    this.images = images;
+    this.img = img;
   }
 
   onResize(width, height) {
@@ -29,8 +29,7 @@ class Demo {
   }
 
   onRender({ elapsedTime, delta, scene, camera, renderer }) {
-    //this.plane.rotation.x += delta;
-    //this.plane.rotation.y += delta;
+    this.img.update(camera);
     renderer.render({ scene, camera });
   }
 }
