@@ -18,6 +18,7 @@
     "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
-    "ogl": "^0.0.43"
+    "ogl": "^0.0.43",
+    "resize-observer-polyfill": "^1.5.1"
   }
 }
