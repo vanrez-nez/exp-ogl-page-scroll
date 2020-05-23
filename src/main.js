@@ -1,5 +1,4 @@
 import OGLApp from './base/ogl-app';
-import { Program, Mesh, Texture } from 'ogl';
 import imageTest from '../assets/image_test.jpg';
 import ImagePlane from './image-plane';
 
@@ -20,16 +19,19 @@ class Demo {
     camera.lookAt([0, 0, 0]);
     const images = [];
     const img = new ImagePlane(gl, { src: imageTest });
+    img.size.set(100, 100);
+    img.position.set(100, 100);
+    img.scale.set(1.5, 1.5);
     img.setParent(scene);
     this.img = img;
   }
 
   onResize(width, height) {
-    console.log('Resize', width, height);
+    // console.log('Resize', width, height);
   }
 
   onRender({ elapsedTime, delta, scene, camera, renderer }) {
-    this.img.update(camera);
+    this.img.update({ renderer, camera });
     renderer.render({ scene, camera });
   }
 }

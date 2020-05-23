@@ -37,7 +37,7 @@ export default class OGLApp {
     this.clock = new Clock();
 
     // Renderer
-    const renderer = new Renderer({ dpr: pixelRatio, alpha: transparent });
+    const renderer = new Renderer({ antialias: true, dpr: pixelRatio, alpha: transparent });
     const gl = renderer.gl;
     this.renderer = renderer;
     target.appendChild(gl.canvas);

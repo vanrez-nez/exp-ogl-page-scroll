@@ -1,8 +1,9 @@
-import { Plane, Program, Mesh, Texture } from 'ogl';
+import { Plane, Program, Mesh, Texture, Vec2 } from 'ogl';
 import vertex from './shaders/vertex.glsl';
 import fragment from './shaders/fragment.glsl';
 import { loadTexture } from './base/utils';
-import Resizer from './resizer';
+import PixelTransform from './pixel-transform';
+
 
 export default class ImagePlane {
 
@@ -10,13 +11,10 @@ export default class ImagePlane {
     this.gl = gl;
     this.loaded = false;
     this.src = src;
-    this.width = 0;
-    this.height = 0;
-    this.naturalWidth = 0;
-    this.naturalHeight = 0;
+    this.naturalSize = new Vec2();
     this.texture = new Texture(gl);
     this.plane = this.createPlane();
-    this.resizer = new Resizer(this.plane);
+    this.pixelTransform = new PixelTransform(this.plane);
     this.load();
   }
 
@@ -25,10 +23,10 @@ export default class ImagePlane {
     this.loaded = false;
     await loadTexture(texture, src);
     const { width, height } = texture.image;
-    this.naturalWidth = width;
-    this.naturalHeight = height;
-    this.width = width;
-    this.height = height;
+    this.naturalSize.set(width, height);
+    if (this.size.equals([0, 0])) {
+      this.size.copy(this.naturalSize);
+    }
     this.loaded = true;
   }
 
@@ -45,7 +43,21 @@ export default class ImagePlane {
     this.plane.setParent(parentTransform);
   }
 
-  update(camera) {
-    this.resizer.update(camera);
+  update({ renderer, camera }) {
+    const { pixelTransform } = this;
+    pixelTransform.viewport.set(renderer.width, renderer.height);
+    pixelTransform.update(camera);
+  }
+
+  get size() {
+    return this.pixelTransform.size;
+  }
+
+  get position() {
+    return this.pixelTransform.position;
+  }
+
+  get scale() {
+    return this.pixelTransform.scale;
   }
 }

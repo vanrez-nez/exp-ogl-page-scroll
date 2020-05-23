@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Experiment</title>
   <style>
-    body {
+    html, body {
       margin: 0;
+      border: 0;
+      padding: 0;
       background: black;
       overflow: hidden;
     }
@@ -15,11 +17,20 @@
       width: 100%;
       height: 100%;
     }
+
+    .rect {
+      width: 100px;
+      height: 100px;
+      left: 100px;
+      top: 100px;
+      position: absolute;
+      background-color: red;
+    }
   </style>
 </head>
 <body>
   <main id="js-container">
-
+    <div class="rect"></div>
   </main>
   <script src="./src/main.js"></script>
 </body>
