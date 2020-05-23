@@ -10,27 +10,41 @@
       border: 0;
       padding: 0;
       background: black;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     canvas {
-      width: 100%;
-      height: 100%;
+      position: fixed;
+      top: 0;
     }
 
-    .rect {
-      width: 100px;
-      height: 100px;
-      left: 100px;
-      top: 100px;
-      position: absolute;
-      background-color: red;
+    img {
+      width: 100%;
+      align-self: center;
+      opacity: 0.9;
+      padding: 50px;
+      box-sizing: border-box;
+    }
+
+    .container {
+      position: relative;
+      display: flex;
+      flex-flow: column nowrap;
+      top: 0;
+      width: 100vw;
+      height: 100%;
     }
   </style>
 </head>
 <body>
-  <main id="js-container">
-    <div class="rect"></div>
+  <canvas id="gl-canvas"></canvas>
+  <main id="js-container" class="container">
+    <img src="/assets/6.jpg">
+    <img src="/assets/1.jpg">
+    <img src="/assets/2.jpg">
+    <img src="/assets/3.jpg">
+    <img src="/assets/4.jpg">
+    <img src="/assets/5.jpg">
   </main>
   <script src="./src/main.js"></script>
 </body>

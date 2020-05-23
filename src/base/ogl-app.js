@@ -16,6 +16,7 @@ function toLocalCoords(domElement, mouseEvent) {
 
 export default class OGLApp {
   constructor({
+    canvas,
     target = document.body,
     pixelRatio = window.devicePixelRatio,
     autoResize = true,
@@ -37,10 +38,17 @@ export default class OGLApp {
     this.clock = new Clock();
 
     // Renderer
-    const renderer = new Renderer({ antialias: true, dpr: pixelRatio, alpha: transparent });
+    const renderer = new Renderer({
+      antialias: true,
+      dpr: pixelRatio,
+      alpha: transparent,
+      canvas
+    });
     const gl = renderer.gl;
     this.renderer = renderer;
-    target.appendChild(gl.canvas);
+    if (!canvas) {
+      target.appendChild(gl.canvas);
+    }
     if (!transparent) {
       gl.clearColor(0, 0, 0, 1);
     }
@@ -59,9 +67,8 @@ export default class OGLApp {
     }
 
     // Mouse Events
-    const { canvas } = gl;
-    canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
-    canvas.addEventListener('click', this.onMouseClick.bind(this));
+    gl.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
+    gl.canvas.addEventListener('click', this.onMouseClick.bind(this));
   }
 
   resize(width, height) {

@@ -1,38 +1,12 @@
-import OGLApp from './base/ogl-app';
-import imageTest from '../assets/image_test.jpg';
-import ImagePlane from './image-plane';
+import WebGLCanvas from './webgl-canvas';
+import Scroller from './scroller';
 
 class Demo {
   constructor() {
-    this.app = new OGLApp({
-      onRenderCallback: this.onRender.bind(this),
-      onResizeCallback: this.onResize.bind(this),
-      orbitControls: false,
+    this.scroller = new Scroller({
+      target: document.querySelector('#js-container')
     });
-    this.setup();
-    this.app.start();
-  }
-
-  setup() {
-    const { gl, scene, camera } = this.app;
-    camera.position.set(0, 0, 1);
-    camera.lookAt([0, 0, 0]);
-    const images = [];
-    const img = new ImagePlane(gl, { src: imageTest });
-    img.size.set(100, 100);
-    img.position.set(100, 100);
-    img.scale.set(1.5, 1.5);
-    img.setParent(scene);
-    this.img = img;
-  }
-
-  onResize(width, height) {
-    // console.log('Resize', width, height);
-  }
-
-  onRender({ elapsedTime, delta, scene, camera, renderer }) {
-    this.img.update({ renderer, camera });
-    renderer.render({ scene, camera });
+    this.canvas = new WebGLCanvas({});
   }
 }
 
