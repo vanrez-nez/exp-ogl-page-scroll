@@ -1,6 +1,7 @@
 import ResizeObserver from 'resize-observer-polyfill';
 import { lerp, fixedDecimal } from './utils';
 
+const NOOP = () => {};
 const PREFIX = 'custom-scroller';
 
 const CSS_STYLE = `
@@ -13,7 +14,8 @@ const CSS_STYLE = `
 export default class Scroller {
   constructor({
     target,
-    damping = 0.1
+    damping = 0.1,
+    onScrollCallback = NOOP,
   }) {
     this.dom = {
       style: document.createElement('style'),
@@ -23,9 +25,11 @@ export default class Scroller {
       parent: target.parentElement,
       target,
     }
+    this.firstUpdate = true;
     this.damping = damping;
     this.currentTop = 0;
     this.lastTop = 0;
+    this.onScrollCallback = onScrollCallback;
     this.onResize = this.onResize.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.observer = new ResizeObserver(this.onResize);
@@ -70,8 +74,9 @@ export default class Scroller {
   }
 
   onScroll() {
-    const { dom, currentTop } = this;
+    const { dom, currentTop, onScrollCallback } = this;
     dom.container.style.setProperty('--scroll-translateY', `${-currentTop}px`);
+    onScrollCallback(currentTop);
   }
 
   onUpdate() {
@@ -82,6 +87,10 @@ export default class Scroller {
     this.currentTop = lerp(this.currentTop, targetTop, damping);
     this.currentTop = fixedDecimal(this.currentTop, 3);
     if (this.lastTop !== this.currentTop) {
+      if (this.firstUpdate) {
+        this.firstUpdate = false;
+        this.currentTop = targetTop;
+      }
       this.onScroll();
     }
   }
