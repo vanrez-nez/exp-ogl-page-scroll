@@ -32,7 +32,7 @@ export default class WebGLCanvas {
 
   updateDomDimensions(recomputeStyle = false) {
     /*
-      TODO: considering the parent offset (HTML.OffsetParent) recursively
+      TODO: considering the parent offset (HTMLElement.OffsetParent) recursively
       could handle edge cases where nesting and borders displace the
       children positions.
     */
