@@ -1,5 +1,5 @@
 import ResizeObserver from 'resize-observer-polyfill';
-import { lerp, fixedDecimal } from './utils';
+import { lerp, fixedDecimal } from './base/utils';
 
 const NOOP = () => {};
 const PREFIX = 'custom-scroller';
